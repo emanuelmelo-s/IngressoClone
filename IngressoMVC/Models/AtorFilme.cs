@@ -7,11 +7,19 @@ namespace IngressoMVC.Models
 {
     public class AtorFilme
     {
-        public Ator Ator { get; set; }
-        public Filme Filme { get; set; }
+        public AtorFilme(int atorId, int filmeId)
+        {
+            AtorId = atorId;
+            FilmeId = filmeId;
+        }
 
-        public int FilmeId  { get; set; }
+        public Ator Ator { get; set; }
+        public int AtorId { get;private set; }
+
+
         public Filme Filme { get; set; }
+        public int FilmeId  { get;private set; }
+        
 
     }
 }
