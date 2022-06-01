@@ -27,5 +27,23 @@ namespace IngressoMVC.Controllers
             var result =_context.Atores.Find(id);
             return View(result);
         }
+
+        public IActionResult Criar()
+        {
+            return View();
+        }
+        public IActionResult Atualizar()
+        {
+            //buscar o ator no banco
+            //passar o ator na view
+            return View();
+        }
+
+        public IActionResult Deletar ()
+        {   //buscar o ator no banco
+            //passar o ator na view
+            return View();
+        }
+
     }
 }

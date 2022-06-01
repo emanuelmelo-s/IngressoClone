@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<Ator>
 
+@{ 
+    ViewData["Title"] = "Índice Atores";
+}
 <div class="row">
     <div class="col-md-10 offset-md-1">
         <h1 class="text-center">Atores 
@@ -8,15 +11,15 @@
         </h1>
 
         <div class="col-12 my-2">
-            <input class="form-control" type="text" name="nome" id="nome" placeholder="Buscar..."
+            <input class="form-control" type="text" name="nome" id="nome" placeholder="Buscar...">
         </div>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Ações</th>
-                    <th>Foto de Perfil</th>
-                    <th>Nome</th>
-                    <th>Biografia</th>
+                    <th>@Html.DisplayNameFor(model => model.FotoPerfilURL)</th>
+                    <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                    <th>@Html.DisplayNameFor(model => model.Bio)</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,21 +28,21 @@
                     <tr>
                         <td width="50">
                             <div class="d-flex flex-column">
-                                <a class="btn btn-success mt-1" href="#">
+                                <a class="btn btn-success mt-1" asp-action="Atualizar" asp-route-id="@ator.Id">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     Editar
                                 </a>
 
                             
 
-                                <a class="btn btn-secondary mt-1" href="#">
+                                <a class="btn btn-secondary mt-1" asp-action="Detalhes" asp-route-id="@ator.Id">
                                     <i class="fa-solid fa-eye"></i>
                                     Ver
                                 </a>
 
                              
 
-                                <a class="btn btn-danger mt-1" href="#">
+                                <a class="btn btn-danger mt-1" asp-action="Deletar" asp-route-id="@ator.Id">
                                     <i class="fa-solid fa-trash"></i>
                                     Excluir
                                 </a>

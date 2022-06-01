@@ -1,5 +1,4 @@
 ﻿using IngressoMVC.Data;
-using IngressoMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,45 +7,40 @@ using System.Threading.Tasks;
 
 namespace IngressoMVC.Controllers
 {
-    
-
-    public class FilmesController : Controller
+    public class CategoriasController : Controller
     {
         private IngressoDbContext _context;
 
-        public FilmesController(IngressoDbContext context)
+        public CategoriasController(IngressoDbContext context)
         {
             _context = context;
         }
 
         public IActionResult Index()
         {
-            return View(_context.Filmes);
+            return View(_context.Categorias);
         }
 
-        public IActionResult Detalhes(int id)
-        {
-            var result = _context.Filmes.Find(id);
-            return View(result);
-        }
         public IActionResult Criar()
         {
             return View();
         }
         public IActionResult Atualizar()
         {
-            //buscar o ator no banco
-            //passar o ator na view
+            //buscar a categoria no banco
+            //passar a categoria na view
             return View();
         }
 
         public IActionResult Deletar()
-        {   //buscar o ator no banco
-            //passar o ator na view
+        {   //buscar a categoria no banco
+            //passar a categoria na view
             return View();
         }
-
-
-
     }
 }
+
+
+
+
+
