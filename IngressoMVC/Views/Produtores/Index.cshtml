@@ -1,5 +1,67 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Produtor>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h1>
+                Produtores
+                -
+                <a class="btn btn-dark" href="">
+                    Cadastrar
+                </a>
+            </h1>
+            <div class="row my-2">
+
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Pesquisar" name="nome" id="nome" aria-label="nome">
+                    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                </div>
+            </div>
+
+            <hr />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Ações</th>
+                        <th>@Html.DisplayNameFor(model => model.FotoPerfilURL)</th>
+                        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                        <th>@Html.DisplayNameFor(model => model.Bio)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var produtor in Model)
+                    {
+
+                        <tr>
+
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <a class="btn btn-success" asp-action="Atualizar" asp-route-id="@produtor.Id">
+                                        <i class="fa-solid fa-user-pen"></i>
+                                        Editar
+                                    </a>
+
+                                    <a class="btn btn-primary mt-1" asp-action="Detalhes" asp-route-id="@produtor.Id">
+                                        <i class="fa-solid fa-eye"></i>
+                                        Ver
+                                    </a>
+
+                                    <a class="btn btn-danger mt-1" asp-action="Deletar" asop-route-id="@produtor.Id">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                        Excluir
+                                    </a>
+                                </div>
+                            </td>
+
+                            <td class="align-middle">
+                                <img src="@produtor.FotoPerfilURL" style="max-width:150px" alt="@produtor.Nome" />
+                            </td>
+                            <td class="align-middle">@produtor.Nome</td>
+                            <td class="align-middle">@produtor.Bio</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div> 
