@@ -40,8 +40,13 @@ namespace IngressoMVC.Controllers
         {
             //receber os dados
             //validar os dados
-            Ator ator = new Ator(atorDto.Nome, atorDto.Bio, atorDto.FotoPerfilURL);
+            if (!ModelState.IsValid || !atorDto.FotoPerfilURL.EndsWith(".jpg"))
+            {
+                return View(atorDto);
+            }
             //instanciar um novo ator que receba os dados
+            Ator ator = new Ator(atorDto.Nome, atorDto.Bio, atorDto.FotoPerfilURL);
+            
             //gravar o ator no banco de dados e salvar as mudanças
             _context.Atores.Add(ator);
 
@@ -75,10 +80,21 @@ namespace IngressoMVC.Controllers
             return View();
         }
 
-        public IActionResult Deletar()
+        public IActionResult Deletar(int id)
         {   //buscar o ator no banco
+            var result = _context.Atores.FirstOrDefault(a => a.Id == id);
+
+            if (result == null) return View();
             //passar o ator na view
-            return View();
+            return View(result);
+        }
+        [HttpDelete]
+        public IActionResult ConfirmarDeletar(int id)
+        {
+            var result = _context.Atores.FirstOrDefault(a => a.Id == id);
+            _context.Atores.Remove(result);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
     }

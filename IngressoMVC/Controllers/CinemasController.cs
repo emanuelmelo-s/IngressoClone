@@ -31,6 +31,11 @@ namespace IngressoMVC.Controllers
         [HttpPost]
         public IActionResult Criar(PostCinemaDTO cinemaDTO)
         {
+            if (!ModelState.IsValid || !cinemaDTO.LogoURL.EndsWith(".jpg"))
+            {
+                return View(cinemaDTO); 
+            }
+
             Cinema cinema = new Cinema(cinemaDTO.Nome,cinemaDTO.Descricao,cinemaDTO.LogoURL);
 
             _context.Cinemas.Add(cinema);

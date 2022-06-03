@@ -30,6 +30,10 @@ namespace IngressoMVC.Controllers
         [HttpPost]
         public IActionResult Criar(PostCategoriaDTO categoriaDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(categoriaDto);
+            }
             //receber os dados
             //validar os dados
             Categoria categoria = new Categoria(categoriaDto.Nome);
