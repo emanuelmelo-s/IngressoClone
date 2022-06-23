@@ -88,7 +88,7 @@ namespace IngressoMVC.Controllers
             //passar o ator na view
             return View(result);
         }
-        [HttpDelete]
+        [HttpPost]
         public IActionResult ConfirmarDeletar(int id)
         {
             var result = _context.Atores.FirstOrDefault(a => a.Id == id);

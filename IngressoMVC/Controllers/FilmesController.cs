@@ -35,9 +35,9 @@ namespace IngressoMVC.Controllers
         [HttpPost]
         public IActionResult Criar(PostFilmeDTO filmesDto)
         {
-            var cinema = _context.Cinemas.FirstOrDefault(c => c.Nome == Filme.NomeCinema);
+            var cinema = _context.Cinemas.FirstOrDefault(c => c.Nome == filmesDto.NomeCinema );
 
-            if (cinema = null)
+            if (cinema == null)
             {
                 return View();
             }
