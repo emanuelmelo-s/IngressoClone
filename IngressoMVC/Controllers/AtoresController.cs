@@ -73,11 +73,30 @@ namespace IngressoMVC.Controllers
         //    return RedirectToAction(nameof(Index));
         //}
 
-        public IActionResult Atualizar()
+        public IActionResult Atualizar(int? id)
         {
+            if (id == null)
+                return View();
             //buscar o ator no banco
+            var result = _context.Atores.FirstOrDefault(a => a.Id == id);
+            if (result == null)
+            {
+                return View();
+            }
             //passar o ator na view
-            return View();
+            return View(result);
+        }
+
+        [HttpPost]
+        public IActionResult Atualizar(int id, PostAtorDTO atorDTO)
+        {
+            var result = _context.Atores.FirstOrDefault(a => a.Id == id);
+
+            result.AtualizarAtor(atorDTO.Nome, atorDTO.Bio, atorDTO.FotoPerfilURL);
+            _context.Update(result);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+            
         }
 
         public IActionResult Deletar(int id)
@@ -88,6 +107,7 @@ namespace IngressoMVC.Controllers
             //passar o ator na view
             return View(result);
         }
+
         [HttpPost]
         public IActionResult ConfirmarDeletar(int id)
         {
