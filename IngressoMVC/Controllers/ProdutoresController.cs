@@ -51,17 +51,46 @@ namespace IngressoMVC.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Atualizar()
+
+        public IActionResult Atualizar(int? id)
         {
-            //buscar o produtor no banco
-            //passar o produtor  na view
-            return View();
+            if (id == null)
+                return View();
+
+            var result = _context.Produtores.FirstOrDefault(a => a.Id == id);
+            if (result == null)
+                return View();
+
+            return View(result);
         }
 
-        public IActionResult Deletar()
+        [HttpPost]
+        public IActionResult Atualizar(int id, PostProdutorDTO produtorDTO)
+        {
+            //buscar o produtor no banco
+            var result = _context.Produtores.FirstOrDefault(a => a.Id == id);
+            result.AtualizarDados(produtorDTO.Nome, produtorDTO.Bio, produtorDTO.FotoPerfilURL);
+            _context.Update(result);
+            _context.SaveChanges();
+            //passar o produtor  na view
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Deletar(int id)
+        {
+            var result = _context.Produtores.FirstOrDefault(a => a.Id == id);
+            if (result == null) return View();
+            return View(result);
+        }
+        
+        [HttpPost]
+        public IActionResult ConfirmarDeletar(int id)
         {   //buscar o produtor no banco
+            var result = _context.Produtores.FirstOrDefault(a => a.Id == id);
+            _context.Produtores.Remove(result);
+            _context.SaveChanges();
             //passar o produtor na view
-            return View();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -32,7 +32,7 @@ namespace IngressoMVC.Models
         public string FotoPerfilURL { get; private set; }
 
 
-        public void AtualizarAtor(string nome, string bio, string fotoPerfilURL)
+        public void AtualizarDados(string nome, string bio, string fotoPerfilURL)
         {
             Nome = nome;
             Bio = bio;

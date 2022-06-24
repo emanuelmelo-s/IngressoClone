@@ -90,9 +90,11 @@ namespace IngressoMVC.Controllers
         [HttpPost]
         public IActionResult Atualizar(int id, PostAtorDTO atorDTO)
         {
+            if (!ModelState.IsValid)
+                return View(atorDTO);
             var result = _context.Atores.FirstOrDefault(a => a.Id == id);
 
-            result.AtualizarAtor(atorDTO.Nome, atorDTO.Bio, atorDTO.FotoPerfilURL);
+            result.AtualizarDados(atorDTO.Nome, atorDTO.Bio, atorDTO.FotoPerfilURL);
             _context.Update(result);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
