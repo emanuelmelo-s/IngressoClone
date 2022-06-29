@@ -1,4 +1,4 @@
-﻿@model Ator
+﻿@model IngressoMVC.Models.ViewModels.ResponseDTO.GetAtoresDTO
 
 <h1>@Model.Nome</h1>
 
@@ -22,15 +22,12 @@
 <div class="row">
     <div id="carouselExampleControls" class="carousel slide col-md-5 offset-md-2 " data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/vMD2BXVMXDbbmdjBNvCgcBzXlSD.jpg" class="d-block  w-100">
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/89QTZmn34iwXYeCpVxhC9UrT8sX.jpg" class="d-block  w-100" >
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/q6725aR8Zs4IwGMXzZT8aC8lh41.jpg" class="d-block  w-100" >
-            </div>
+            @foreach (var filme in Model.FotoURLFilmes)
+            {
+                <div class="carousel-item active">
+                    <img src="@filme" class="d-block w-100"/>
+                </div>
+            }
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

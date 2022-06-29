@@ -20,6 +20,11 @@ namespace IngressoMVC.Models
 
         public List<FilmeCategoria> FilmesCategorias { get; set; }
 
+        public void AtualizaCategoria(string novoNome)
+        {
+            Nome = novoNome;
+            DataAlteracao = DateTime.Now;
+        }
 
     }
 }
