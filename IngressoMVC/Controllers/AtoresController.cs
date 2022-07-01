@@ -3,6 +3,7 @@ using IngressoMVC.Models;
 using IngressoMVC.Models.ViewModels.RequestDTO;
 using IngressoMVC.Models.ViewModels.ResponseDTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace IngressoMVC.Controllers
 
         public IActionResult Detalhes(int id)
         {
-            var ator = _context.Atores.Find(id);
+            var ator = _context.Produtores.Find(id);
             var result = _context.Atores.Where(at => at.Id == id)
                 .Select(at => new GetAtoresDTO()
                 {
@@ -37,7 +38,7 @@ namespace IngressoMVC.Controllers
                     NomeFilmes = at.AtoresFilmes.Select(fm => fm.Filme.Titulo).ToList(),
                     FotoURLFilmes = at.AtoresFilmes.Select(fm => fm.Filme.ImageURL).ToList(),
                 }).FirstOrDefault();
-            
+
             return View(result);
         }
 
