@@ -31,29 +31,70 @@ namespace IngressoMVC.Controllers
         [HttpPost]
         public IActionResult Criar(PostCinemaDTO cinemaDTO)
         {
-            if (!ModelState.IsValid || !cinemaDTO.LogoURL.EndsWith(".jpg"))
+            if (!ModelState.IsValid)
             {
-                return View(cinemaDTO); 
+                return View(cinemaDTO);
             }
 
-            Cinema cinema = new Cinema(cinemaDTO.Nome,cinemaDTO.Descricao,cinemaDTO.LogoURL);
+            Cinema cinema = new Cinema(cinemaDTO.Nome, cinemaDTO.Descricao, cinemaDTO.LogoURL);
 
             _context.Cinemas.Add(cinema);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Atualizar()
+        public IActionResult Atualizar(int id)
         {
-            //buscar a categoria no banco
-            //passar a categoria na view
-            return View();
+            var result = _context.Cinemas.FirstOrDefault(x => x.Id == id);
+
+            if (result == null)
+            {
+                return View("NotFound");
+            }
+
+            return View(result);
         }
 
-        public IActionResult Deletar()
+        [HttpPost]
+        public IActionResult Atualizar(int id, PostCinemaDTO cinemaDTO)
+        {
+            var result = _context.Cinemas.FirstOrDefault(x => x.Id == id);
+
+            result.AtualizarDados(cinemaDTO.Nome, cinemaDTO.Descricao, cinemaDTO.LogoURL);
+            _context.Cinemas.Update(result);
+            _context.SaveChanges();
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Deletar(int id)
         {   //buscar a categoria no banco
             //passar a categoria na view
-            return View();
+            var result = _context.Cinemas.FirstOrDefault(x => x.Id == id);
+
+            if (result == null)
+            {
+                return View("NotFound");
+            }
+
+            return View(result);
+        }
+
+        [HttpPost, ActionName("Deletar")]
+        public IActionResult ConfirmarDeletar(int id)
+        {
+            var result = _context.Cinemas.FirstOrDefault(x => x.Id == id);
+
+            if (result == null)
+            {
+                return View("NotFound");
+            }
+
+            _context.Remove(result);
+            _context.SaveChanges();
+
+
+            return RedirectToAction(nameof(Index));
         }
         
     }

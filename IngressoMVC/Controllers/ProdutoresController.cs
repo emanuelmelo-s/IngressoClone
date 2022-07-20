@@ -38,6 +38,7 @@ namespace IngressoMVC.Controllers
                    // FotoURLFilmes = at.AtoresFilmes.Select(fm => fm.Filme.ImageURL).ToList(),
                 }).FirstOrDefault();
 
+
             return View(result);
 
 

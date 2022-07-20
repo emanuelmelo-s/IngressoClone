@@ -19,10 +19,18 @@ namespace IngressoMVC.Models
         public DateTime DataCadastro { get; set; }
         public DateTime DataAlteracao { get; set; }
 
-        public string Nome { get;private set; }
+        public string Nome { get; private set; }
         public string Descricao { get; private set; }
         public string LogoURL { get; private set; }
 
         public List<Filme> Filmes { get; set; }
+        public void AtualizarDados(string nome, string descricao, string logoURL)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            LogoURL = logoURL;
+            DataAlteracao = DateTime.Now;
+        }
+
     }
 }
