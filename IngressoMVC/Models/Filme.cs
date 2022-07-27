@@ -8,13 +8,16 @@ namespace IngressoMVC.Models
 {
     public class Filme : IEntidade
     {
-        public Filme(string titulo, string descricao, decimal preco, string imageURL)
+        public Filme(string titulo, string descricao, decimal preco, string imageURL,int produtorId)
         {
             Titulo = titulo;
             Descricao = descricao;
             Preco = preco;
             ImageURL = imageURL;
-            
+            ProdutorId = produtorId;
+            DataCadastro = DateTime.Now;
+            DataAlteracao = DataCadastro;
+
         }
 
         public Filme(string titulo, string descricao, decimal preco, string imageURL, int cinemaId, int produtorId )
@@ -23,26 +26,34 @@ namespace IngressoMVC.Models
             Descricao = descricao;
             Preco = preco;
             ImageURL = imageURL;
-            CinemaId = cinemaId;
             ProdutorId = produtorId;
+            DataCadastro = DateTime.Now;
+            DataAlteracao = DataCadastro;
+
 
         }
 
-        public int Id { get; set; }
-        public DateTime DataCadastro { get; set; }
-        public DateTime DataAlteracao { get; set; }
+        public int Id { get; private set; }
+        public DateTime DataCadastro { get; private set; }
+        public DateTime DataAlteracao { get; private set; }
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
         public decimal Preco { get; private set; }
         public string ImageURL { get; private set; }
 
-        public void AlteraPreco(decimal novoPreco)
+        public void AlterarDados(decimal novoPreco, string novoTitulo, string novoDescricao, string novoImageURL)
         {
-            if (novoPreco <0)
+            if (novoTitulo.Length < 3 || novoPreco < 0)
             {
                 return;
             }
+            Titulo = novoTitulo;
+            Descricao = novoDescricao;
+            ImageURL = novoImageURL;
             Preco = novoPreco;
+
+            DataAlteracao = DateTime.Now;
+            
         }
 
         #region relacionamentos

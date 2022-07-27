@@ -10,9 +10,9 @@ namespace IngressoMVC.Models.ViewModels.Request
         public string ImageURL { get; set; }
         public string NomeCinema { get; set; }
 
-        public string NomeProdutor { get; set; }
+        public int ProdutorId { get; set; }
 
-        public List<string> NomeAtores { get; set; }
+        public List<int> AtoresId { get; set; }
         public List<string> Categorias { get; set; }
 
 

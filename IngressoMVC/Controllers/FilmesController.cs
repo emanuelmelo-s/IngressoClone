@@ -32,46 +32,73 @@ namespace IngressoMVC.Controllers
             return View(result);
         }
 
-        [HttpPost]
-        public IActionResult Criar(PostFilmeDTO filmesDto)
+        
+        public IActionResult Criar()
         {
-            var cinema = _context.Cinemas.FirstOrDefault(c => c.Nome == filmesDto.NomeCinema );
+            return View();
+           
+        }
 
-            if (cinema == null)
+        public IActionResult Atualizar(int id)
+        {
+            var resultado = _context.Filmes.FirstOrDefault(x => x.Id == id);
+            if (resultado == null)
             {
-                return View();
+                return View("NotFound");
             }
-            var produtor = _context.Produtores.FirstOrDefault(p => p.Nome == filmesDto.NomeProdutor);
+            return View(resultado);
+        }
 
-            Filme filme = new Filme(filmesDto.Titulo, filmesDto.Descricao, filmesDto.Preco, filmesDto.ImageURL, cinema.Id, produtor.Id);
+        public IActionResult Deletar(int id)
+        {
+            var resultado = _context.Filmes.FirstOrDefault(x => x.Id == id);
+            if (resultado == null)
+            {
+                return View("NotFound");
+            }
+
+            return View(resultado);
+        }
+
+        [HttpPost, ActionName ("Deletar")]
+        public IActionResult ConfirmarDeletar(int id)
+        {
+            var resultado = _context.Filmes.FirstOrDefault(x => x.Id == id);
+
+            _context.Remove(resultado);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult Atualizar(int id, PostFilmeDTO filmeDTO)
+        {
+            var resultado = _context.Filmes.FirstOrDefault(x => x.Id == id);
+
+            if (!ModelState.IsValid)
+            {
+                return View(resultado);
+            }
+
+            resultado.AlterarDados(filmeDTO.Preco, filmeDTO.Titulo, filmeDTO.Descricao, filmeDTO.ImageURL) ;
+     
+            _context.Update(resultado);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpPost]
+        public IActionResult Criar(PostFilmeDTO filmeDto)
+        {
+            Filme filme = new Filme(filmeDto.Titulo, filmeDto.Descricao, filmeDto.Preco, filmeDto.ImageURL, _context.Produtores.FirstOrDefault(x => x.Id == filmeDto.ProdutorId).Id); ;
 
             _context.Add(filme);
             _context.SaveChanges();
             //falta fazer a FilmesDTO
             //Incluir relacionamentos
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public IActionResult CriarFilmeComCategoriasAtores(PostFilmeDTO filmeDto)
-        {
-            var cinema = _context.Cinemas.FirstOrDefault(c => c.Nome == filmeDto.NomeCinema);
-            if (cinema == null) return View();
-            var produtor = _context.Produtores.FirstOrDefault(p => p.Nome == filmeDto.NomeProdutor);
-            if (produtor == null) return View();
-            Filme filme = new Filme
-                (
-                    filmeDto.Titulo,
-                    filmeDto.Descricao,
-                    filmeDto.Preco,
-                    filmeDto.ImageURL,
-                    cinema.Id,
-                    produtor.Id
-                );
-            _context.Add(filme);
-            _context.SaveChanges();
-
-            //Incluir Relacionamentos
             foreach (var categoria in filmeDto.Categorias)
             {
                 int? categoriaId = _context.Categorias.Where(c => c.Nome == categoria).FirstOrDefault().Id;
@@ -84,21 +111,21 @@ namespace IngressoMVC.Controllers
                 }
             }
 
-            foreach (var ator in filmeDto.NomeAtores)
+            foreach (var atorId in filmeDto.AtoresId)
             {
-                int? atorId = _context.Atores.Where(a => a.Nome == ator).FirstOrDefault().Id;
-
-                if (atorId != null)
-                {
-                    var novoAtor = new AtorFilme(atorId.Value, filme.Id);
+                
+                    var novoAtor = new AtorFilme(atorId, filme.Id);
                     _context.AtoresFilmes.Add(novoAtor);
                     _context.SaveChanges();
-                }
+              
             }
 
             return RedirectToAction(nameof(Index));
+
+
         }
 
+       
 
     }
 }
