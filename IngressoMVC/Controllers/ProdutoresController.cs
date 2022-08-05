@@ -3,6 +3,7 @@ using IngressoMVC.Models;
 using IngressoMVC.Models.ViewModels.RequestDTO;
 using IngressoMVC.Models.ViewModels.ResponseDTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,19 +28,36 @@ namespace IngressoMVC.Controllers
 
         public IActionResult Detalhes(int id)
         {
-            var produtor = _context.Produtores.Find(id);
-            var result = _context.Produtores.Where(at => at.Id == id)
-                .Select(at => new GetAtoresDTO()
-                {
-                    Bio = at.Bio,
-                    FotoPerfilURL = at.FotoPerfilURL,
-                    Nome = at.Nome,
-                   // NomeFilmes = at.AtoresFilmes.Select(fm => fm.Filme.Titulo).ToList(),
-                   // FotoURLFilmes = at.AtoresFilmes.Select(fm => fm.Filme.ImageURL).ToList(),
-                }).FirstOrDefault();
+            //var produtor = _context.Produtores.Find(id);
+            //var result = _context.Produtores.Where(at => at.Id == id)
+            //    .Select(at => new GetAtoresDTO()
+            //    {
+            //        Bio = at.Bio,
+            //        FotoPerfilURL = at.FotoPerfilURL,
+            //        Nome = at.Nome,
+            //       // NomeFilmes = at.AtoresFilmes.Select(fm => fm.Filme.Titulo).ToList(),
+            //       // FotoURLFilmes = at.AtoresFilmes.Select(fm => fm.Filme.ImageURL).ToList(),
+            //    }).FirstOrDefault();
 
 
-            return View(result);
+            //return View(result);
+
+            var resultado = _context.Produtores.Include(p => p.Filmes).FirstOrDefault(p => p.Id == id);
+            if (resultado == null)
+                return View();
+
+           
+            GetProdutoresDTO produtor = new GetProdutoresDTO()
+            {
+                Nome = resultado.Nome,
+                Bio = resultado.Bio,
+                FotoPerfilURL = resultado.FotoPerfilURL,
+                FotoURLFilmes = resultado.Filmes.Select(fm => fm.ImageURL).ToList(),
+                NomeFilmes = resultado.Filmes.Select(fm => fm.Titulo).ToList()
+            };
+
+           
+            return View(produtor);
 
 
         }

@@ -41,7 +41,7 @@ namespace IngressoMVC.Models
         public decimal Preco { get; private set; }
         public string ImageURL { get; private set; }
 
-        public void AlterarDados(decimal novoPreco, string novoTitulo, string novoDescricao, string novoImageURL)
+        public void AlterarDados(decimal novoPreco, string novoTitulo, string novoDescricao, string novoImageURL, int produtorId, int cinemaId)
         {
             if (novoTitulo.Length < 3 || novoPreco < 0)
             {
@@ -51,6 +51,8 @@ namespace IngressoMVC.Models
             Descricao = novoDescricao;
             ImageURL = novoImageURL;
             Preco = novoPreco;
+            ProdutorId = produtorId;
+            CinemaId = cinemaId;
 
             DataAlteracao = DateTime.Now;
             

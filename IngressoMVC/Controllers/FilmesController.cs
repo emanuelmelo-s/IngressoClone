@@ -3,6 +3,7 @@ using IngressoMVC.Models;
 using IngressoMVC.Models.ViewModels.Request;
 using IngressoMVC.Models.ViewModels.RequestDTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,12 @@ namespace IngressoMVC.Controllers
 
         public IActionResult Detalhes(int id)
         {
-            var result = _context.Filmes.Find(id);
+            var result = _context.Filmes.Include(p => p.Produtor)
+                                        .Include(c => c.Cinema)
+                                        .Include(fc => fc.FilmesCategorias).ThenInclude(c => c.Categoria)
+                                        .Include(af => af.AtoresFilmes).ThenInclude(a => a.Ator)
+                                        .FirstOrDefault(f => f.Id == id);
+
             return View(result);
         }
 
@@ -81,7 +87,7 @@ namespace IngressoMVC.Controllers
                 return View(resultado);
             }
 
-            resultado.AlterarDados(filmeDTO.Preco, filmeDTO.Titulo, filmeDTO.Descricao, filmeDTO.ImageURL) ;
+            resultado.AlterarDados(filmeDTO.Preco, filmeDTO.Titulo, filmeDTO.Descricao, filmeDTO.ImageURL, filmeDTO.ProdutorId, filmeDTO.CinemaId) ;
      
             _context.Update(resultado);
             _context.SaveChanges();
@@ -99,9 +105,9 @@ namespace IngressoMVC.Controllers
             _context.SaveChanges();
             //falta fazer a FilmesDTO
             //Incluir relacionamentos
-            foreach (var categoria in filmeDto.Categorias)
+            foreach (var categoria in filmeDto.CategoriasId)
             {
-                int? categoriaId = _context.Categorias.Where(c => c.Nome == categoria).FirstOrDefault().Id;
+                int? categoriaId = _context.Categorias.Where(c => c.Id == categoria).FirstOrDefault().Id;
 
                 if (categoriaId != null)
                 {

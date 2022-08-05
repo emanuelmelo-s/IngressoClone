@@ -1,3 +1,62 @@
 ﻿@model IEnumerable<Filme>
 
-<h1>index Filme</h1>
+@{
+    ViewData["Title"] = "Filmes";
+}
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h1 class="text-center">
+            Filmes
+            -
+            <a class="btn btn-dark text-center" asp-action="Criar"> Cadastrar </a>
+        </h1>
+
+        <div class="col-12 my-2">
+            <input class="form-control" type="text" name="nome" id="nome" placeholder="Buscar...">
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ações</th>
+                    <th>@Html.DisplayNameFor(model => model.ImageURL)</th>
+                    <th>@Html.DisplayNameFor(model => model.Titulo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Descricao)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var filme in Model)
+                {
+                    <tr>
+                        <td width="50">
+                            <div class="d-flex flex-column">
+                                <a class="btn btn-success mt-1" asp-action="Atualizar" asp-route-id="@filme.Id">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Editar
+                                </a>
+
+
+
+                                <a class="btn btn-secondary mt-1" asp-action="Detalhes" asp-route-id="@filme.Id">
+                                    <i class="fa-solid fa-eye"></i>
+                                    Ver
+                                </a>
+
+
+
+                                <a class="btn btn-danger mt-1" asp-action="Deletar" asp-route-id="@filme.Id">
+                                    <i class="fa-solid fa-trash"></i>
+                                    Excluir
+                                </a>
+                            </div>
+
+
+                        </td>
+                        <td class="align-middle"><img src="@filme.ImageURL" alt="@filme.Titulo" class="img-thumbnail"></td>
+                        <td class="align-middle">@filme.Titulo</td>
+                        <td class="align-middle">@filme.Descricao</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

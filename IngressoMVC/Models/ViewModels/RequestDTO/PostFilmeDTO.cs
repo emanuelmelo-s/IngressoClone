@@ -11,9 +11,10 @@ namespace IngressoMVC.Models.ViewModels.Request
         public string NomeCinema { get; set; }
 
         public int ProdutorId { get; set; }
+        public int CinemaId { get; set; }
 
         public List<int> AtoresId { get; set; }
-        public List<string> Categorias { get; set; }
+        public List<int> CategoriasId { get; set; }
 
 
 
